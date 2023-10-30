@@ -36,26 +36,28 @@ def filt(img, kernel, pad=1):
     res = np.zeros_like(padded_img)
     imx, imy = img.shape
     mx, my = kernel.shape
+    mp = int(np.floor(mx/2))
     for i in range(1, imx):
         for j in range(1, imy):
-            res[i, j] = np.sum(kernel * padded_img[i-1:i+2, j-1:j+2])
+            res[i, j] = np.sum(kernel * padded_img[i-mp:i+mp+1, j-mp:j+mp+1])
 
-    return res
+    return res[pad:-pad, pad:-pad]
+
 
 edgey = filt(img=example, kernel=prewitt_win, pad=1)
 plt.figure()
 plt.imshow(edgey, cmap="gray")
-plt.title(f"padded image of size: {edgey.shape}")
+plt.title(f"prewit Y image of size: {edgey.shape}")
 plt.show()
 
 edgex = filt(img=example, kernel=np.transpose(prewitt_win), pad=1)
 plt.figure()
 plt.imshow(edgex, cmap="gray")
-plt.title(f"padded image of size: {edgex.shape}")
+plt.title(f"prewit X image of size: {edgex.shape}")
 plt.show()
 
 mag = np.sqrt(edgex**2 + edgey**2)
 plt.figure()
 plt.imshow(mag, cmap="gray")
-plt.title(f"padded image of size: {mag.shape}")
+plt.title(f"magnitude image of size: {mag.shape}")
 plt.show()
