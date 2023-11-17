@@ -37,8 +37,8 @@ def filt(img, kernel, pad=1):
     imx, imy = img.shape
     mx, my = kernel.shape
     mp = int(np.floor(mx/2))
-    for i in range(1, imx):
-        for j in range(1, imy):
+    for i in range(mp, imx+1-mp):
+        for j in range(mp, imy+1-mp):
             res[i, j] = np.sum(kernel * padded_img[i-mp:i+mp+1, j-mp:j+mp+1])
 
     return res[pad:-pad, pad:-pad]
